@@ -1,0 +1,86 @@
+package org.domain;
+/**
+ * @author : nalin sharma
+ *
+ */
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="employee_group")
+public class EmployeeGroup implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="group_id")
+	private int groupId;	
+	@Column(name="group_name")
+	private String groupName;
+	@Column(name="group_description",nullable=true)
+	private String groupDescription;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="approver",referencedColumnName="user_id",nullable=true)
+	private User approver;
+	@Column(name="feedback_freq")
+	private Integer feedBackFrequency;
+	@Column(name="appraisal_freq")
+	private Integer appraisalFrequency;
+	@Column(name="default_hike")
+	private float defaultHike;
+	public int getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+	public String getGroupDescription() {
+		return groupDescription;
+	}
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
+	}
+	public User getApprover() {
+		return approver;
+	}
+	public void setApprover(User approver) {
+		this.approver = approver;
+	}
+	public float getFeedBackFrequency() {
+		return feedBackFrequency;
+	}
+	public void setFeedBackFrequency(Integer feedBackFrequency) {
+		this.feedBackFrequency = feedBackFrequency;
+	}
+	public float getAppraisalFrequency() {
+		return appraisalFrequency;
+	}
+	public void setAppraisalFrequency(Integer appraisalFrequency) {
+		this.appraisalFrequency = appraisalFrequency;
+	}
+	public float getDefaultHike() {
+		return defaultHike;
+	}
+	public void setDefaultHike(float defaultHike) {
+		this.defaultHike = defaultHike;
+	}
+	
+}

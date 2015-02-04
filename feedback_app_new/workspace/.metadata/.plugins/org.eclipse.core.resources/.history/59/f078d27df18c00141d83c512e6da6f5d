@@ -1,0 +1,109 @@
+package org.service;
+
+import EmployeeGroup;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.dao.UserDAO;
+import org.dao.UserDAOImpl;
+import org.domain.Role;
+import org.domain.User;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.dtos.RoleDTO;
+import org.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(value="txName")
+public class UserServiceImpl implements UserService{
+
+	@Autowired
+	UserDAO dao;
+		
+	@Autowired
+	Mapper mapper;
+
+	
+	public void createUser(UserDTO userDTO) {
+		System.out.println("UserServiceImpl......"+dao);
+		 mapper = new DozerBeanMapper(); 
+		 System.out.println("userDTO....."+userDTO);
+		User userEntity = 
+			      mapper.map(userDTO, User.class);
+		//attach the nested objects
+		Role dto = new Role();
+		dto.setRoleId(userDTO.getRoleId());
+		userEntity.setRole(dto);
+		
+		List<User> managers = new ArrayList<User>();
+		Integer [] manIds = userDTO.getManagerIds();
+/*		if(manIds != null){
+			for (int i = 0; i < manIds.length; i++) {
+				User tempUser = dao.getUser(manIds[i]);
+				if(tempUser != null)*/
+				managers = dao.getUsers(manIds);
+/*			}	
+		}*/
+		userEntity.setManagers(managers);
+		System.out.println("userEntity..."+userEntity);
+		dao.createUser(userEntity);
+	}
+	
+	
+
+	public UserDTO getUser(Integer userId) {
+		User userEntity = dao.getUser(userId);
+		UserDTO userDTO = new UserDTO();
+			     /* mapper.map(userEntity, UserDTO.class);*/
+		userDTO.setAppraisalFrequency(userEntity.getAppraisalFrequency());
+		userDTO.setAppraisalFrequencyType(userEntity.getFeedBackFrequencyType());
+	    userDTO.setApproverId(userEntity.getUserId());
+	    userDTO.setApproverType(userEntity.getApproverType());
+	    userDTO.setCtc(userEntity.getCtc());
+	    userDTO.setEmailAddress(userEntity.getEmailAddress());
+	    userDTO.setEmployeeId(userEntity.getEmailAddress());
+	    userDTO.setExperience(userEntity.getExperience());
+	    userDTO.setFeedbackFrequency(userEntity.getFeedBackFrequency());
+	    userDTO.setFeedbackFrequencyType(userEntity.getFeedBackFrequencyType());
+	    userDTO.setFirstName(userEntity.getFirstName());
+	    userDTO.setGender(userEntity.getGender());
+	    userDTO.setGroupId(userEntity.getGroup().getGroupId());
+	    userDTO.setLastHikePercentage(userEntity.getLastHikePercentage());
+	    userDTO.setLastName(userEntity.getLastName());
+	    List<User> managers = userEntity.getManagers();
+	    List<Integer> managerIds = new ArrayList<Integer>();
+	    for (User manager : managers) {
+	    	managerIds.add(manager.getUserId());
+		}
+	    userDTO.setManagerIds((Integer[])managerIds.toArray());// check
+	    userDTO.setPassword(userEntity.getPassword());
+	    userDTO.setPhoneNumber(userEntity.getPhoneNumber());
+	    userDTO.setPhoto(userEntity.getPhoto());
+	    userDTO.setRoleId(userEntity.getRole().getRoleId());
+	    userDTO.setSkillset(userEntity.getSkillset());
+	    //userEntity.setUserId(27);
+          return userDTO;
+	}
+	
+/*	public static void main(String[] args) {
+		UserServiceImpl impl = new UserServiceImpl();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setFirstName("nalin");
+		userDTO.setLastName("sharma");
+		userDTO.setEmailAddress("a@a.a");
+		RoleDTO dto = new RoleDTO();
+		dto.setRoleId(1);
+		userDTO.setRoleId(1);	
+		//userDTO.setManagerIds();
+		//userDTO.setUserId(1);
+		impl.createUser(userDTO);
+	}*/
+
+	
+}

@@ -1,0 +1,34 @@
+package org.service;
+
+import org.dao.UserDAO;
+import org.domain.User;
+import org.dozer.Mapper;
+import org.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class UserServiceImpl implements UserService{
+
+	@Autowired
+	UserDAO dao;
+		
+	@Autowired
+	Mapper mapper;
+	
+	public void createUser(UserDTO userDTO) {
+		
+		System.out.println(mapper);
+		User userEntity = 
+			      mapper.map(userDTO, User.class);
+		System.out.println(userEntity);
+		dao.createUser(userEntity);
+	}
+	public static void main(String[] args) {
+		UserServiceImpl impl = new UserServiceImpl();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setFirstName("nalin");
+		userDTO.setLastName("sharma");
+		//userDTO.setUserId(1);
+		impl.createUser(userDTO);
+	}
+
+}

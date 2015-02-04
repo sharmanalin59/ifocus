@@ -1,0 +1,8 @@
+package org.dtos;
+
+public class UsersBasicDetailsDTO {
+
+	private Integer userId;
+	private Integer employeeId;
+	private String name;
+}

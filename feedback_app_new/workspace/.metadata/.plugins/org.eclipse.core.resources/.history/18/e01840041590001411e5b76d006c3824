@@ -1,0 +1,83 @@
+package org.service;
+/**
+ * @author nalin.sharma
+ */
+import java.util.List;
+
+import org.dao.SystemDefaultDAO;
+import org.dao.UserDAO;
+import org.domain.EmployeeGroup;
+import org.domain.SystemDefault;
+import org.domain.User;
+import org.dtos.FeedbackAppraisalDTO;
+import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommonServiceImpl implements CommonService{
+
+
+	@Autowired
+	SystemDefaultDAO defaultDAO;
+	
+	@Autowired
+	UserDAO userDAO;
+	
+	public FeedbackAppraisalDTO getFeedBackAppraisal(Integer feedbackFrequencyType,
+			Integer appraisalFrequencyType,Integer userId) {
+		
+		if(feedbackFrequencyType != null && appraisalFrequencyType != null){
+			
+			if(feedbackFrequencyType == 1){//system defaults
+				return assignSystemDefault();
+			}
+			else if(feedbackFrequencyType == 2){ //group
+				//find user's own group if it doesn't exist get it from default
+				User user = userDAO.getUser(userId);
+				if(user != null){
+					EmployeeGroup employeeGroup = user.getGroup();
+					if(employeeGroup != null){
+						FeedbackAppraisalDTO feedbackAppraisalDTO = new FeedbackAppraisalDTO();
+						SystemDefault systemDefault = defaultDAO.getSystemDefault();
+						feedbackAppraisalDTO.setAppraisalFrequency(employeeGroup.getAppraisalFrequency());
+						feedbackAppraisalDTO.setFeedbackFrequency(employeeGroup.getFeedbackFrequency());
+						return feedbackAppraisalDTO;
+					}
+					else{//find group from system defaults
+						return assignSystemDefault();
+					}
+				}
+				else{
+					return assignSystemDefault();
+				}
+			}
+			else if(feedbackFrequencyType == 3){
+				//send data from user table
+			}
+		}
+		return null;
+	}
+	
+	private FeedbackAppraisalDTO assignSystemDefault(){
+		FeedbackAppraisalDTO feedbackAppraisalDTO = new FeedbackAppraisalDTO();
+		SystemDefault systemDefault = defaultDAO.getSystemDefault();
+		feedbackAppraisalDTO.setAppraisalFrequency(systemDefault.getAppraisalFreq());
+		feedbackAppraisalDTO.setFeedbackFrequency(systemDefault.getFeedbackFreq());
+		return feedbackAppraisalDTO;
+	}
+	
+	public List<User> getUsers(List<Integer> userIds) {
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("from User u where u.userId in :user_ids");
+		q.setParameterList("user_ids", userIds);
+		@SuppressWarnings("unchecked")
+		List<User> result = q.list();
+		System.out.println("result size..."+result.size());
+		if(result.size() >0)
+		return result;
+		return null;
+	}
+
+
+}

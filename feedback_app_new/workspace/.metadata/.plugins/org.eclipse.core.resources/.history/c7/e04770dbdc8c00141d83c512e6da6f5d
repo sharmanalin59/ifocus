@@ -1,0 +1,14 @@
+
+package org.dao;
+
+import java.util.List;
+
+import org.domain.User;
+
+
+public interface UserDAO {
+	
+	public void createUser(User userEntity);
+	public List<User> getUser(Integer[] userId);
+
+}

@@ -1,0 +1,11 @@
+package org.service;
+
+import org.domain.User;
+import org.dtos.UserDTO;
+
+public interface UserService {
+
+	public void createUser(UserDTO userDTO);
+	public User getUser(Integer userId); 
+	
+}

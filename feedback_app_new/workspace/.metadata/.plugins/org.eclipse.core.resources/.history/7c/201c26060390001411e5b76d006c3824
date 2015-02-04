@@ -1,0 +1,61 @@
+package org.service;
+/**
+ * @author nalin.sharma
+ */
+import org.dao.SystemDefaultDAO;
+import org.dao.UserDAO;
+import org.domain.SystemDefault;
+import org.domain.User;
+import org.dtos.FeedbackAppraisalDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommonServiceImpl implements CommonService{
+
+
+	@Autowired
+	SystemDefaultDAO defaultDAO;
+	
+	@Autowired
+	UserDAO userDAO;
+	
+	public FeedbackAppraisalDTO getFeedBackAppraisal(Integer frequencyType,
+			Integer appraisalType,Integer userId) {
+		
+		if(frequencyType != null && appraisalType != null){
+			
+			if(frequencyType == 1){//system defaults
+				return assignSystemDefault();
+			}
+			else if(frequencyType == 2){ //group
+				//find user's own group if it doesn't exist get it from default
+				User user = userDAO.getUser(userId);
+				if(user != null){
+					if(user.getGroup() != null){
+						
+					}
+					else{//find group from system defaults
+						
+					}
+				}
+				else{
+					
+				}
+			}
+			else if(frequencyType == 3){
+				//send data from user table
+			}
+		}
+		return null;
+	}
+	
+	private FeedbackAppraisalDTO assignSystemDefault(){
+		FeedbackAppraisalDTO feedbackAppraisalDTO = new FeedbackAppraisalDTO();
+		SystemDefault systemDefault = defaultDAO.getSystemDefault();
+		feedbackAppraisalDTO.setAppraisalFrequency(systemDefault.getAppraisalFreq());
+		feedbackAppraisalDTO.setFeedbackFrequency(systemDefault.getFeedbackFreq());
+		return feedbackAppraisalDTO;
+	}
+
+}

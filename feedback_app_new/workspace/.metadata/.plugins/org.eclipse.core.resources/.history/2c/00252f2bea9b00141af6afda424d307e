@@ -1,0 +1,35 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http auto-config="true" security="none" pattern="/welcome/login**" />
+	<http auto-config="true" security="none" pattern="/resources**" />
+
+	<http auto-config="true" authentication-manager-ref="adminAuthManager">
+		<intercept-url pattern="/**" access="ROLE_ADMIN" />
+		<form-login login-page="/welcome/login" default-target-url="/welcome/goto"
+			authentication-failure-url="/welcome/login/error" username-parameter="username"
+			password-parameter="password" login-processing-url="/welcome/j_spring_security_check" />
+
+		<logout logout-success-url="/welcome/login" logout-url="/logout" invalidate-session="true"/>
+	</http>
+
+	<authentication-manager id="adminAuthManager">
+		<authentication-provider user-service-ref="customSpringSecurityService">
+		<!-- <password-encoder hash="bcrypt"></password-encoder> -->
+			<!-- <user-service> <user name="mkyong" password="123456" authorities="ROLE_USER" 
+				/> </user-service> -->
+		</authentication-provider>
+	</authentication-manager>
+	<beans:bean id="customSpringSecurityService" class="org.service.CustomSpringSecurityService" />
+	
+  <beans:bean id="encoder" 
+	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	<beans:constructor-arg name="strength" value="11" />
+  </beans:bean>
+	<!-- <property name="userDAO" ref="UserDAO"/> -->
+	<!-- </beans:beans> -->
+</beans:beans>

@@ -1,0 +1,11 @@
+package org.service;
+/**
+ * @author : nalin sharma
+ *
+ */
+import org.dtos.FeedbackAppraisalDTO;
+
+public interface CommonService {
+  public FeedbackAppraisalDTO getFeedBackAppraisal(Integer frequencyType,Integer appraisalType,Integer userId);
+  public List<UsersBasicDetailsDTO> getUsers(Integer roleId);
+}

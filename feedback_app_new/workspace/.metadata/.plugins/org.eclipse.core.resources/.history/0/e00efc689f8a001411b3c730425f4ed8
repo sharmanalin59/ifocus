@@ -1,0 +1,14 @@
+package org.dtos;
+
+public class RoleDTO {
+private String roleName;
+private int roleId;
+public String getRoleName() {
+	return roleName;
+}
+
+public void setRoleName(String roleName) {
+	this.roleName = roleName;
+}
+
+}

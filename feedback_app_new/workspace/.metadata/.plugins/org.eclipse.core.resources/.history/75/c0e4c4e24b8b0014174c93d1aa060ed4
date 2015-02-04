@@ -1,0 +1,10 @@
+package org.service;
+
+import org.dtos.UserDTO;
+
+public interface UserService {
+
+	public void createUser(UserDTO userDTO);
+	public void getUser(int userId);
+	
+}

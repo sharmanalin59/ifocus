@@ -1,0 +1,221 @@
+package org.dtos;
+
+import java.util.Arrays;
+import java.util.Date;
+
+/**
+ * @author : nalin
+ *
+ */
+public class UserDTO 
+{
+	private int userId;	
+	private String firstName;	
+	private String lastName;
+	private String gender;
+	private String employeeId;
+	private String photo;
+	private int phoneNumber;
+	private String emailAddress;
+	private String password;
+	//private RoleDTO role;
+/*	private int roleId;
+	private String roleName;*/
+	private int groupId;
+	private float experience;
+	private String skillset;
+	private float ctc;
+	private int approverId;
+	private byte approverType;
+	private int[] managerIds;
+	/*private Date nextFeedbackDate;*/
+	private byte feedBackFrequencyType;
+	/*private Date nextAppraisalDate;*/
+	private byte appraisalFrequencyType;
+	private float lastHikePercentage;
+	private int feedBackFrequency;
+	private int appraisalFrequency;
+	/*private Date joiningDate;*/
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public int getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(int phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+/*	public RoleDTO getRole() {
+		return role;
+	}
+	public void setRole(RoleDTO role) {
+		this.role = role;
+	}*/
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+	public int getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
+	}
+	public float getExperience() {
+		return experience;
+	}
+	public void setExperience(float experience) {
+		this.experience = experience;
+	}
+	public String getSkillset() {
+		return skillset;
+	}
+	public void setSkillset(String skillset) {
+		this.skillset = skillset;
+	}
+	public float getCtc() {
+		return ctc;
+	}
+	public void setCtc(float ctc) {
+		this.ctc = ctc;
+	}
+	public int getApproverId() {
+		return approverId;
+	}
+	public void setApproverId(int approverId) {
+		this.approverId = approverId;
+	}
+	public byte getApproverType() {
+		return approverType;
+	}
+	public void setApproverType(byte approverType) {
+		this.approverType = approverType;
+	}
+	public int[] getManagerIds() {
+		return managerIds;
+	}
+	public void setManagerIds(int[] managerIds) {
+		this.managerIds = managerIds;
+	}
+/*	public Date getNextFeedbackDate() {
+		return nextFeedbackDate;
+	}
+	public void setNextFeedbackDate(Date nextFeedbackDate) {
+		this.nextFeedbackDate = nextFeedbackDate;
+	}*/
+	public byte getFeedBackFrequencyType() {
+		return feedBackFrequencyType;
+	}
+	public void setFeedBackFrequencyType(byte feedBackFrequencyType) {
+		this.feedBackFrequencyType = feedBackFrequencyType;
+	}
+/*	public Date getNextAppraisalDate() {
+		return nextAppraisalDate;
+	}
+	public void setNextAppraisalDate(Date nextAppraisalDate) {
+		this.nextAppraisalDate = nextAppraisalDate;
+	}*/
+	public byte getAppraisalFrequencyType() {
+		return appraisalFrequencyType;
+	}
+	public void setAppraisalFrequencyType(byte appraisalFrequencyType) {
+		this.appraisalFrequencyType = appraisalFrequencyType;
+	}
+	public float getLastHikePercentage() {
+		return lastHikePercentage;
+	}
+	public void setLastHikePercentage(float lastHikePercentage) {
+		this.lastHikePercentage = lastHikePercentage;
+	}
+	public int getFeedBackFrequency() {
+		return feedBackFrequency;
+	}
+	public void setFeedBackFrequency(int feedBackFrequency) {
+		this.feedBackFrequency = feedBackFrequency;
+	}
+	public int getAppraisalFrequency() {
+		return appraisalFrequency;
+	}
+	public void setAppraisalFrequency(int appraisalFrequency) {
+		this.appraisalFrequency = appraisalFrequency;
+	}
+/*	public Date getJoiningDate() {
+		return joiningDate;
+	}
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
+	}*/
+/*	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}*/
+	@Override
+	public String toString() {
+		return "UserDTO [userId=" + userId + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", gender=" + gender
+				+ ", employeeId=" + employeeId + ", photo=" + photo
+				+ ", phoneNumber=" + phoneNumber + ", emailAddress="
+				+ emailAddress + ", password=" + password + ", role=" + roleId
+				+ ", groupId=" + groupId + ", experience=" + experience
+				+ ", skillset=" + skillset + ", ctc=" + ctc + ", approverId="
+				+ approverId + ", approverType=" + approverType
+				+ ", managerIds=" + Arrays.toString(managerIds)
+				+ ", feedBackFrequencyType=" + feedBackFrequencyType
+				+ ", appraisalFrequencyType=" + appraisalFrequencyType
+				+ ", lastHikePercentage=" + lastHikePercentage
+				+ ", feedBackFrequency=" + feedBackFrequency
+				+ ", appraisalFrequency=" + appraisalFrequency + "]";
+	}
+
+
+	
+}

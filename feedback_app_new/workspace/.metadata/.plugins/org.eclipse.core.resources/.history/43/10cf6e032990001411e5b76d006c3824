@@ -1,0 +1,59 @@
+package org.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user_manager_archieve")
+public class EmployeeManagerArchieve {
+
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User userId;
+	
+	@ManyToOne
+	@JoinColumn(name="manager_id")
+	private User managerId;
+	
+	@Column(name="start_date")
+	private Integer startDate;
+	
+	@Column(name="end_date")
+	private Integer endDate;
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(Integer managerId) {
+		this.managerId = managerId;
+	}
+
+	public Integer getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Integer startDate) {
+		this.startDate = startDate;
+	}
+
+	public Integer getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Integer endDate) {
+		this.endDate = endDate;
+	}
+
+}

@@ -1,0 +1,16 @@
+package org.dao;
+
+import org.domain.SystemDefault;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class SystemDefaultImpl extends AbstractJpaDAO<SystemDefault> implements SystemDefaultDAO{
+
+	public SystemDefaultImpl(){
+		setClazz(SystemDefault.class);
+	}
+	public SystemDefault getSystemDefault(Integer systemDefaultId) {
+		return findAll().get(0);
+	}
+
+}

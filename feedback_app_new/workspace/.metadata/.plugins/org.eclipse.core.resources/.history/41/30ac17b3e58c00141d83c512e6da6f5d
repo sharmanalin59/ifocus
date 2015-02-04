@@ -1,0 +1,45 @@
+package org.domain;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the user_manager database table.
+ * 
+ */
+@Entity
+@Table(name="user_manager")
+@NamedQuery(name="UserManager.findAll", query="SELECT u FROM UserManager u")
+public class UserManager implements Serializable {
+	private static final long serialVersionUID = 1L;
+    
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="usermanager_id")
+	private Long usermanagerId;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="manager_id")
+	private User managerId;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User userId;
+
+	public UserManager() {
+	}
+
+	public Long getUsermanagerId() {
+		return this.usermanagerId;
+	}
+
+	public void setUsermanagerId(Long usermanagerId) {
+		this.usermanagerId = usermanagerId;
+	}
+
+
+
+}

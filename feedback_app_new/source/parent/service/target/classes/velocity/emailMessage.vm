@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h3>Hi ${newMessage.name}</h3>
+        <h3>
+           ${newMessage.subject}
+        </h3>
+        <p>
+            ${newMessage.body}
+        </p>
+        <h3>
+            Thanking YOU
+        </h3>
+                <p>
+            Appraisal Team
+        </p>
+    </body>
+ 
+</html>

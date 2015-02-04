@@ -1,0 +1,41 @@
+package org.service;
+
+import org.dao.HibernateTest;
+import org.dao.UserDAO;
+import org.dao.UserDAOImpl;
+import org.domain.User;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService{
+
+	@Autowired
+	UserDAO dao;
+		
+	@Autowired
+	Mapper mapper;
+	
+	public void createUser(UserDTO userDTO) {
+		
+		 mapper = new DozerBeanMapper(); 
+		 dao = new UserDAOImpl();
+		System.out.println(mapper);
+		User userEntity = 
+			      mapper.map(userDTO, User.class);
+		System.out.println(userEntity);
+		dao.createUser(userEntity);
+	}
+	public static void main(String[] args) {
+		UserServiceImpl impl = new UserServiceImpl();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setFirstName("nalin");
+		userDTO.setLastName("sharma");
+		//userDTO.setUserId(1);
+		impl.createUser(userDTO);
+	}
+
+}

@@ -1,0 +1,68 @@
+package org.dtos;
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+public class EmployeeGroup {
+
+	private String groupName;
+	private String groupDescription;
+	private String approverName;
+	private Integer approverId;
+	private Integer feedbackFrequency;
+	private Integer appraisalFrequency;
+	private Float defaultHike;
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+	public String getGroupDescription() {
+		return groupDescription;
+	}
+	public void setGroupDescription(String groupDescription) {
+		this.groupDescription = groupDescription;
+	}
+	public String getApproverName() {
+		return approverName;
+	}
+	public void setApproverName(String approverName) {
+		this.approverName = approverName;
+	}
+	public Integer getApproverId() {
+		return approverId;
+	}
+	public void setApproverId(Integer approverId) {
+		this.approverId = approverId;
+	}
+	public Integer getFeedbackFrequency() {
+		return feedbackFrequency;
+	}
+	public void setFeedbackFrequency(Integer feedbackFrequency) {
+		this.feedbackFrequency = feedbackFrequency;
+	}
+	public Integer getAppraisalFrequency() {
+		return appraisalFrequency;
+	}
+	public void setAppraisalFrequency(Integer appraisalFrequency) {
+		this.appraisalFrequency = appraisalFrequency;
+	}
+	public Float getDefaultHike() {
+		return defaultHike;
+	}
+	public void setDefaultHike(Float defaultHike) {
+		this.defaultHike = defaultHike;
+	}
+	@Override
+	public String toString() {
+		return "GroupDTO [groupName=" + groupName + ", groupDescription="
+				+ groupDescription + ", approverName=" + approverName
+				+ ", approverId=" + approverId + ", feedbackFrequency="
+				+ feedbackFrequency + ", appraisalFrequency="
+				+ appraisalFrequency + ", defaultHike=" + defaultHike + "]";
+	}
+	
+	
+}

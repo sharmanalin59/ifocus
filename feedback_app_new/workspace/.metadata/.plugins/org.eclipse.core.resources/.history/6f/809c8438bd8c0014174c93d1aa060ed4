@@ -1,0 +1,72 @@
+package org.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dao.UserDAO;
+import org.dao.UserDAOImpl;
+import org.domain.Role;
+import org.domain.User;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.dtos.RoleDTO;
+import org.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+//@ComponentScan({ "org.dao" })
+@Transactional(value="txName")
+public class UserServiceImpl implements UserService{
+
+	@Autowired
+	UserDAO dao;
+		
+	@Autowired
+	Mapper mapper;
+	
+	public UserServiceImpl(){
+		System.out.println("UserServiceImpl......"+dao);
+	}
+	
+	public void createUser(UserDTO userDTO) {
+		
+		 mapper = new DozerBeanMapper(); 
+		 dao = new UserDAOImpl();
+		 System.out.println("userDTO....."+userDTO);
+		User userEntity = 
+			      mapper.map(userDTO, User.class);
+		//attach the nested objects
+		Role dto = new Role();
+		dto.setRoleId(userDTO.getRoleId());
+		userEntity.setRole(dto);
+		
+		List<User> managers = new ArrayList<User>();
+		int [] manIds = userDTO.getManagerIds();
+		if(manIds != null){
+			for (int i = 0; i < manIds.length; i++) {
+				managers.add(dao.getUser(i));
+			}	
+		}
+		userEntity.setManagers(managers);
+		System.out.println("userEntity..."+userEntity);
+		dao.createUser(userEntity);
+	}
+/*	public static void main(String[] args) {
+		UserServiceImpl impl = new UserServiceImpl();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setFirstName("nalin");
+		userDTO.setLastName("sharma");
+		userDTO.setEmailAddress("a@a.a");
+		RoleDTO dto = new RoleDTO();
+		dto.setRoleId(1);
+		userDTO.setRoleId(1);	
+		//userDTO.setManagerIds();
+		//userDTO.setUserId(1);
+		impl.createUser(userDTO);
+	}*/
+
+	
+}

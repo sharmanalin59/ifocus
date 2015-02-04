@@ -1,0 +1,345 @@
+package org.domain;
+/**
+ * @author : nalin sharma
+ *
+ */
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
+public class User implements Serializable{
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="user_id")
+	private Integer userId;	
+	@Column(name="first_name")
+	private String firstName;
+	@Column(name="last_name")
+	private String lastName;
+	@Column(name="gender")
+	private String gender;
+	@Column(name="employee_id",unique=true)
+	private String employeeId;
+	@Column(name="photo")
+	private String photo;
+	@Column(name="phone_number")
+	private Long phoneNumber;
+	@Column(name="email_address",unique=true)
+	private String emailAddress;
+	@Column(name="password")
+	private String password;
+	
+/*	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="role",referencedColumnName="role_id")
+	private Role role;*/
+	
+	@ManyToMany
+	  @JoinTable(
+	      name="user_role",
+	      joinColumns={@JoinColumn(name="user_id", referencedColumnName="user_id")},
+	      inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="role_id")})
+	  private List<Role> roles;
+	
+	
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="employee_group",referencedColumnName="group_id")
+	private EmployeeGroup group;
+	
+	private Float experience;
+	private String skillset;
+	private Float ctc;
+	@JoinColumn(name="approver",nullable=true)
+	@ManyToOne(fetch=FetchType.LAZY)
+	private User approver;
+	@Column(name="approver_type")
+	private Byte approverType;
+	
+	
+	@ManyToMany(cascade={CascadeType.MERGE})
+	@JoinTable(
+	      name="user_manager",
+	      joinColumns={@JoinColumn(name="user_id", referencedColumnName="user_id")},
+	      inverseJoinColumns={@JoinColumn(name="manager_id", referencedColumnName="user_id")}
+	  )
+	private List<User> managers;
+	//added
+	  @ManyToMany(mappedBy="managers")
+	  private List<User> employees;
+	  
+	
+	public List<User> getEmployees() {
+		return employees;
+	}
+	public void setEmployees(List<User> employees) {
+		this.employees = employees;
+	}
+	
+	
+	@Column(name="next_feedback_date")
+	private Date nextFeedbackDate;
+	@Column(name="feedBack_frequency_type")
+	private Byte feedBackFrequencyType;
+	@Column(name="next_appraisal_date")
+	private Date nextAppraisalDate;
+	@Column(name="appraisal_frequency_type")
+	private Byte appraisalFrequencyType;
+	@Column(name="last_hike_percentage")
+	private Float lastHikePercentage;
+	@Column(name="feedBack_frequency")
+	private Integer feedBackFrequency;
+	@Column(name="appraisal_frequency")
+	private Integer appraisalFrequency;
+	@Column(name="joining_date")
+	private Date joiningDate;
+	@Column(name="is_deleted")
+	private Boolean isDeleted;
+	@Column(name="is_internal")
+	private Boolean isInternal;
+	
+	@Column(name="creation_date")
+	private Date creationDate;
+	
+	@Column(name="last_modified_date")
+	private Date lastModifiedDate;
+	
+	@Column(name="deletion_date")
+	private Date deletionDate;
+	
+	@ManyToOne
+	@JoinColumn(name="created_by")
+	private User createdBy;
+	
+	@ManyToOne
+	@JoinColumn(name="last_modified_by")
+	private User lastModifiedBy;
+	
+	@ManyToOne
+	@JoinColumn(name="deleted_by")
+	private User deletedBy;
+	
+	
+	public Boolean getIsInternal() {
+		return isInternal;
+	}
+	public void setIsInternal(Boolean isInternal) {
+		this.isInternal = isInternal;
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	public Date getDeletionDate() {
+		return deletionDate;
+	}
+	public void setDeletionDate(Date deletionDate) {
+		this.deletionDate = deletionDate;
+	}
+	public User getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+	public User getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+	public void setLastModifiedBy(User lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+	public User getDeletedBy() {
+		return deletedBy;
+	}
+	public void setDeletedBy(User deletedBy) {
+		this.deletedBy = deletedBy;
+	}
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public Long getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(Long phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/*public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}*/
+	public EmployeeGroup getGroup() {
+		return group;
+	}
+	public void setGroup(EmployeeGroup group) {
+		this.group = group;
+	}
+	public Float getExperience() {
+		return experience;
+	}
+	public void setExperience(Float experience) {
+		this.experience = experience;
+	}
+	public String getSkillset() {
+		return skillset;
+	}
+	public void setSkillset(String skillset) {
+		this.skillset = skillset;
+	}
+	public Float getCtc() {
+		return ctc;
+	}
+	public void setCtc(Float ctc) {
+		this.ctc = ctc;
+	}
+
+	public Byte getApproverType() {
+		return approverType;
+	}
+	public void setApproverType(Byte approverType) {
+		this.approverType = approverType;
+	}
+
+	public Date getNextFeedbackDate() {
+		return nextFeedbackDate;
+	}
+	public void setNextFeedbackDate(Date nextFeedbackDate) {
+		this.nextFeedbackDate = nextFeedbackDate;
+	}
+	public Byte getFeedBackFrequencyType() {
+		return feedBackFrequencyType;
+	}
+	public void setFeedBackFrequencyType(Byte feedBackFrequencyType) {
+		this.feedBackFrequencyType = feedBackFrequencyType;
+	}
+	public Date getNextAppraisalDate() {
+		return nextAppraisalDate;
+	}
+	public void setNextAppraisalDate(Date nextAppraisalDate) {
+		this.nextAppraisalDate = nextAppraisalDate;
+	}
+	public Byte getAppraisalFrequencyType() {
+		return appraisalFrequencyType;
+	}
+	public void setAppraisalFrequencyType(Byte appraisalFrequencyType) {
+		this.appraisalFrequencyType = appraisalFrequencyType;
+	}
+	public Float getLastHikePercentage() {
+		return lastHikePercentage;
+	}
+	public void setLastHikePercentage(Float lastHikePercentage) {
+		this.lastHikePercentage = lastHikePercentage;
+	}
+	public Integer getFeedBackFrequency() {
+		return feedBackFrequency;
+	}
+	public void setFeedBackFrequency(Integer feedBackFrequency) {
+		this.feedBackFrequency = feedBackFrequency;
+	}
+	public Integer getAppraisalFrequency() {
+		return appraisalFrequency;
+	}
+	public void setAppraisalFrequency(Integer appraisalFrequency) {
+		this.appraisalFrequency = appraisalFrequency;
+	}
+	public Date getJoiningDate() {
+		return joiningDate;
+	}
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
+	}
+	public User getApprover() {
+		return approver;
+	}
+	public void setApprover(User approver) {
+		this.approver = approver;
+	}
+	public List<User> getManagers() {
+		return managers;
+	}
+	public void setManagers(List<User> managers) {
+		this.managers = managers;
+	}
+
+	
+}

@@ -1,0 +1,11 @@
+package org.dao;
+
+import org.domain.UserManager;
+
+public class UserManagerDAOImpl extends AbstractJpaDAO<UserManager> implements UserManagerDAO{
+
+	public UserManagerDAOImpl(){
+		
+		
+	}
+}

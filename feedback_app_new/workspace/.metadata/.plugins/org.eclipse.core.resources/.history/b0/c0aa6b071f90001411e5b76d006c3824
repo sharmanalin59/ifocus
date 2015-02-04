@@ -1,0 +1,6 @@
+package org.dao;
+
+public interface UserManagerDAO {
+
+	public void removeUserManagerEntries(Integer userId,Integer managerId);
+}

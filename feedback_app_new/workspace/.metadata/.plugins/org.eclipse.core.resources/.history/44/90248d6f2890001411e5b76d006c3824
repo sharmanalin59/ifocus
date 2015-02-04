@@ -1,0 +1,12 @@
+package org.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user_manager_archieve")
+public class EmployeeManagerArchieve {
+
+	//@M
+	//@JoinColumn
+}

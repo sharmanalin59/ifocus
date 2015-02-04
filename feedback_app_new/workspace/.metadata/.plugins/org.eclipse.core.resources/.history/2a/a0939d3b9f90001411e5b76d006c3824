@@ -1,0 +1,13 @@
+package org.dao;
+
+import org.domain.EmployeeManagerArchieve;
+
+public class EmployeeManagerArchieveDAOImpl extends AbstractJpaDAO<EmployeeManagerArchieve> 
+implements EmployeeManagerArchieveDAO {
+
+	public void createEmployeeMAnagerArchieve(
+			EmployeeManagerArchieve employeeManagerArchieve) {
+		
+	}
+
+}

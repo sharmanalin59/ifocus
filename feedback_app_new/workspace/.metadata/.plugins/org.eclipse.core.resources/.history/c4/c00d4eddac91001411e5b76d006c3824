@@ -1,0 +1,47 @@
+package org.dao;
+
+import java.util.List;
+
+import org.domain.EmployeeManagerArchieve;
+import org.domain.UserManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+@Repository
+public class EmployeeManagerArchieveDAOImpl extends AbstractJpaDAO<EmployeeManagerArchieve> 
+implements EmployeeManagerArchieveDAO {
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	private Session session;
+	public void createEmployeeMAnagerArchieve(
+			EmployeeManagerArchieve employeeManagerArchieve) {
+		save(employeeManagerArchieve);
+	}
+
+	public List<EmployeeManagerArchieveDAO> getAll(Integer userId,
+			Integer managerId) {
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("from UserManager u where u.userManagerId.userId = :userId and u.userManagerId.managerId = :managerId");
+		q.setParameter("userId", userId);
+		q.setParameter("managerId", managerId);
+		@SuppressWarnings("unchecked")
+		List<UserManager> result = q.list();
+		System.out.println("result size..."+result.size());
+		if(result.size() >0)
+		return result.get(0);
+		
+		return null;
+	}
+	
+
+}

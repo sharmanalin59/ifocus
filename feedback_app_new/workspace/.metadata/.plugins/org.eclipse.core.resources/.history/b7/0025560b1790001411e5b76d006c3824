@@ -1,0 +1,39 @@
+package controllers;
+
+import org.dtos.EmployeeGroupDTO;
+import org.dtos.ResponseBean;
+import org.service.CommonService;
+import org.service.EmployeeGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+@RequestMapping(value="/hr")
+public class HRController {
+
+	@Autowired
+	EmployeeGroupService employeeGroupService;
+	
+	@Autowired
+	CommonService commonService;
+	
+	@RequestMapping(value="/createGroup",method=METHOD.GET)
+	@ResponseBody ResponseBean<Object> createEmployeeGroup(@RequestBody EmployeeGroupDTO employeeGroupDTO){
+		
+		employeeGroupService.createGroup(employeeGroupDTO);
+		return null;
+	}
+	
+	@RequestMapping(value="/createGroup")
+	@ResponseBody ResponseBean<Object> createEmployeeGroup(@RequestBody EmployeeGroupDTO employeeGroupDTO){
+		
+		employeeGroupService.createGroup(employeeGroupDTO);
+		return null;
+	}
+}

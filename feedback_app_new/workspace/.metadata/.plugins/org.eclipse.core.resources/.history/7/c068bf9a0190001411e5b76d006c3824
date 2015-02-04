@@ -1,0 +1,16 @@
+package org.service;
+
+import java.util.List;
+
+import org.dtos.UserDTO;
+import org.dtos.UsersBasicDetailsDTO;
+
+public interface UserService {
+
+	public void createUser(UserDTO userDTO);
+	public void updateUser(UserDTO userDTO);
+	public UserDTO getUser(Integer userId); 
+	public List<UsersBasicDetailsDTO> getUsers(Integer roleId);
+	public void removeUser(Integer userId); 
+	
+}

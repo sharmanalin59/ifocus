@@ -1,0 +1,29 @@
+package controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping(value="/welcome")
+public class WelcomeController {
+
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String getLoginPage(){
+		return "index";
+		
+	}
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String getLoginPageFailure(){
+		ModelAndView modelAndView = new ModelAndView("index");
+		return "";
+		
+	}
+	
+	@RequestMapping(value="/goto",method=RequestMethod.GET)
+	public String getGoToPage(){
+		return "goTo";
+		
+	}
+}

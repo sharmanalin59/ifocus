@@ -1,0 +1,5 @@
+1418732271562	Delete element
+1418732405936	Rename package 'com.ifocussystec.web'
+1418732478045	Rename resource 'index.jsp'
+1418732983916	Rename resource 'dispatcher-servlet.xml'
+1418787411883	Move 'mvc-dispatcher-servlet.xml' to 'WEB-INF'

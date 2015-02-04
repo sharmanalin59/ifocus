@@ -1,0 +1,12 @@
+
+package org.dao;
+
+import org.domain.User;
+
+
+public interface UserDAO {
+	
+	public void createUser(User userEntity);
+	public Lidt<User> getUser(Integer[] userId);
+
+}

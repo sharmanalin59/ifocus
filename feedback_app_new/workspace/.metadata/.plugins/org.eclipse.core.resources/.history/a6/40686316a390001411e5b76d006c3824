@@ -1,0 +1,11 @@
+package org.dao;
+
+import java.util.List;
+
+import org.domain.User;
+
+public interface UserManagerDAO {
+
+	public void removeUserManagerEntries(Integer userId,List<Integer> managerIds);
+	public void removeUserManagerEntriesBasedOnManagerEntityList(Integer userId, List<User> managerIds);
+}

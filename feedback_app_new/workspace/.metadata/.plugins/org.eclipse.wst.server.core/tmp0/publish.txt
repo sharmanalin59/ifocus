@@ -1,0 +1,7 @@
+#Tomcat publish data
+#Thu Jan 15 15:16:35 IST 2015
+org.eclipse.jst.j2ee.server\:dtos=WEB-INF/lib/dtos-0.0.dtos.jar
+org.eclipse.jst.j2ee.server\:dao=WEB-INF/lib/dao-0.0.dao.jar
+org.eclipse.jst.j2ee.server\:domain=WEB-INF/lib/domain-0.0.domain.jar
+org.eclipse.jst.j2ee.server\:service=WEB-INF/lib/service-0.0.service.jar
+org.eclipse.jst.j2ee.server\:/binary\:/home/ifocus/.m2/repository/org/springframework/spring-web/4.0.6.RELEASE/spring-web-4.0.6.RELEASE.jar=WEB-INF/lib/spring-web-4.0.6.RELEASE.jar

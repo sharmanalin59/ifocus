@@ -1,0 +1,38 @@
+package org.service;
+/**
+ * @author : nalin sharma
+ *
+ */
+import org.dao.EmployeeGroupDAO;
+import org.dao.UserDAO;
+import org.domain.EmployeeGroup;
+import org.dozer.Mapper;
+import org.dtos.EmployeeGroupDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeGroupServiceImpl implements EmployeeGroupService{
+
+	@Autowired
+	EmployeeGroupDAO employeeGroupDAO;
+	
+	@Autowired
+	UserDAO userDAO;
+	
+	@Autowired
+	Mapper mapper;
+	public void createGroup(EmployeeGroupDTO employeeGroupDTO) {
+		EmployeeGroup employeeGroupEntity = mapper.map(employeeGroupDTO, EmployeeGroup.class);
+		//attach approver
+		User approver = userDAO.getUser(employeeGroupDTO.getApproverId());
+		employeeGroupEntity.setApprover(approver);
+		employeeGroupDAO.createGroup(employeeGroupEntity);
+	}
+
+	public void updateGroup(EmployeeGroupDTO employeeGroupDTO) {
+		EmployeeGroup employeeGroupEntity = mapper.map(employeeGroupDTO, EmployeeGroup.class);
+		employeeGroupDAO.updateGroup(employeeGroupEntity);
+	}
+
+}

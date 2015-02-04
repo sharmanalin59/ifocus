@@ -1,0 +1,67 @@
+package org.dao;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.domain.User;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Repository;
+
+@Repository
+//@DependsOn("SessionFactory")
+//@ComponentScan({ "org.config"})
+@Order(value=10)
+public class UserDAOImpl implements UserDAO{
+
+	@Autowired
+	DataSource dataSource;
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	private  Session session;
+	
+/*	public UserDAOImpl(){
+		//System.out.println("DAO constructor....");
+		//System.out.println("sessionFactory...."+sessionFactory);
+		//System.out.println("dataSource...."+dataSource);
+		session = sessionFactory.openSession();
+	}*/
+	
+	public void createUser(User userEntity) {
+		 //Transaction tx;
+			System.out.println("nalin..."+sessionFactory);
+		   // Session session = factory.openSession();
+		   
+		    //Session session = HibernateUtil.getSessionFactory().openSession();
+			//session = sessionFactory.openSession();
+		 //   tx = session.beginTransaction();
+			session = sessionFactory.openSession();
+		    session.saveOrUpdate(userEntity);
+		    //session.close();
+		   // tx.commit();
+			  // session.close();
+			   // HibernateUtil.getSessionFactory().close();
+	}
+
+	public User getUser(int userId) {
+		System.out.println("dataSource...."+dataSource);
+		System.out.println("sessionFactory...."+sessionFactory);
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("from User u where u.userId = :user_id");
+		q.setParameter("user_id", userId);
+		List<User> result = q.list();
+		System.out.println("result size..."+result.size());
+		if(result.size() >0)
+		return result.get(0);
+		return null;
+	}
+	
+
+}

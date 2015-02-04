@@ -1,0 +1,22 @@
+package controllers;
+
+import org.dtos.ResponseBean;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+@RequestMapping(value="/hr")
+public class HRController {
+
+	
+	@RequestMapping(value="/createGroup")
+	@ResponseBody ResponseBean createEmployeeGroup(){
+		
+		
+		return null;
+	}
+}

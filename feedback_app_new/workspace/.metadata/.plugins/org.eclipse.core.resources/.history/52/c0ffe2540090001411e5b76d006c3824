@@ -1,0 +1,7 @@
+package org.dao;
+
+import org.domain.SystemDefault;
+
+public interface SystemDefaultDAO {
+	public SystemDefault getSystemDefault(Integer systemDefaultId);
+}

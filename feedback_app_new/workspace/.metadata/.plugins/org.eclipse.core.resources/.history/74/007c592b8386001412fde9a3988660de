@@ -1,0 +1,33 @@
+package org.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="employee_group")
+public class EmployeeGroup {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="group_id")
+	private int groupId;	
+	@Column(name="group_name")
+	private String groupName;
+	@Column(name="group_description")
+	private String groupDescription;
+	@JoinColumn
+	@ManyToOne(fetch=FetchType.LAZY)
+	private UserEntity approver;
+	@Column(name="feedback_freq")
+	private byte feedBackFrequency;
+	@Column(name="appraisal_freq")
+	private byte appraisalFrequency;
+	@Column(name="default_hike")
+	private float defaultHike;
+}

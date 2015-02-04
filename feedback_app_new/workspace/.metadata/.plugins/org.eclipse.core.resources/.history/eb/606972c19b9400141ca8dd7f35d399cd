@@ -1,0 +1,129 @@
+package org.service;
+/**
+ * @author nalin.sharma
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dao.SystemDefaultDAO;
+import org.dao.UserDAO;
+import org.domain.EmployeeGroup;
+import org.domain.SystemDefault;
+import org.domain.User;
+import org.dtos.FeedbackAppraisalDTO;
+import org.dtos.UsersBasicDetailsDTO;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommonServiceImpl implements CommonService{
+
+
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	@Autowired
+	SystemDefaultDAO defaultDAO;
+	
+	@Autowired
+	UserDAO userDAO;
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(CommonServiceImpl.class);
+	
+	public FeedbackAppraisalDTO getFeedBackAppraisal(Integer feedbackFrequencyType,
+			Integer appraisalFrequencyType,Integer userId) {
+		FeedbackAppraisalDTO feedbackAppraisalDTO = new FeedbackAppraisalDTO();
+		if(feedbackFrequencyType != null){
+			
+			if(feedbackFrequencyType == 1){//system defaults
+				return assignSystemDefault(feedbackAppraisalDTO);
+			}
+			else if(feedbackFrequencyType == 2){ //group
+				//find user's own group if it doesn't exist get it from default
+				User user = userDAO.getUser(userId);
+				if(user != null){
+					EmployeeGroup employeeGroup = user.getGroup();
+					if(employeeGroup != null){
+						SystemDefault systemDefault = defaultDAO.getSystemDefault();
+						feedbackAppraisalDTO.setFeedbackFrequency(employeeGroup.getFeedbackFrequency());
+						return feedbackAppraisalDTO;
+					}
+					else{//find group from system defaults
+						return assignSystemDefault(feedbackAppraisalDTO);
+					}
+				}
+				else{
+					return assignSystemDefault(feedbackAppraisalDTO);
+				}
+			}
+			else if(feedbackFrequencyType == 3){
+				//send data from user table
+			}
+		}
+
+		if(appraisalFrequencyType != null){
+			
+			if(feedbackFrequencyType == 1){//system defaults
+				return assignSystemDefault(feedbackAppraisalDTO);
+			}
+			else if(feedbackFrequencyType == 2){ //group
+				//find user's own group if it doesn't exist get it from default
+				User user = userDAO.getUser(userId);
+				if(user != null){
+					EmployeeGroup employeeGroup = user.getGroup();
+					if(employeeGroup != null){
+						SystemDefault systemDefault = defaultDAO.getSystemDefault();
+						feedbackAppraisalDTO.setAppraisalFrequency(employeeGroup.getAppraisalFrequency());
+						feedbackAppraisalDTO.setFeedbackFrequency(employeeGroup.getFeedbackFrequency());
+						return feedbackAppraisalDTO;
+					}
+					else{//find group from system defaults
+						return assignSystemDefault(feedbackAppraisalDTO);
+					}
+				}
+				else{
+					return assignSystemDefault(feedbackAppraisalDTO);
+				}
+			}
+			else if(feedbackFrequencyType == 3){
+				//send data from user table
+			}
+		}
+		
+		
+		return null;
+	}
+	
+	private FeedbackAppraisalDTO assignSystemDefault(FeedbackAppraisalDTO feedbackAppraisalDTO){
+		SystemDefault systemDefault = defaultDAO.getSystemDefault();
+		feedbackAppraisalDTO.setAppraisalFrequency(systemDefault.getAppraisalFreq());
+		feedbackAppraisalDTO.setFeedbackFrequency(systemDefault.getFeedbackFreq());
+		return feedbackAppraisalDTO;
+	}
+	
+	
+	public List<UsersBasicDetailsDTO> getUsers(Integer roleId) {
+		List<UsersBasicDetailsDTO> basicDetailsDTOs = new ArrayList<UsersBasicDetailsDTO>();
+		List<User> users = userDAO.getUsers(roleId);
+		logger.debug("users size...."+users.size());
+		System.out.println("users size...."+users.size());
+		if(users != null && users.size()>0){
+		for (User user : users) {
+			UsersBasicDetailsDTO basicDetailsDTO = new UsersBasicDetailsDTO();
+			basicDetailsDTO.setUserId(user.getUserId());
+			basicDetailsDTO.setEmployeeId(user.getEmployeeId());
+			basicDetailsDTO.setFirstName(user.getFirstName());
+			basicDetailsDTO.setLastName(user.getLastName());
+			basicDetailsDTOs.add(basicDetailsDTO);
+		}
+		return basicDetailsDTOs;
+		}
+		return null;
+	}
+
+
+}

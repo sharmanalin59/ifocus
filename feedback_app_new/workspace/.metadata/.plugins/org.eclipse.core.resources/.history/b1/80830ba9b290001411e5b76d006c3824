@@ -1,0 +1,71 @@
+package org.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.domain.User;
+import org.domain.UserManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+@Repository
+public class UserManagerDAOImpl extends AbstractJpaDAO<UserManager> implements UserManagerDAO{
+
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	private Session session;
+
+	public UserManagerDAOImpl(){
+		setClazz(UserManager.class);
+		
+	}
+
+	public void removeUserManagerEntries(Integer userId, List<Integer> managerIds) {
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("delete from UserManager u where u.userId = :userId and managerId in :managerIds");
+		q.setParameter("userId", userId);
+		q.setParameterList("managerIds", managerIds);
+		q.executeUpdate();
+	}
+	
+	public void removeUserManagerEntriesBasedOnManagerEntityList(
+			Integer userId, List<User> managers) {
+		List<Integer> managerIds = getManagerIdsFromManagerEntityList(managers);
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("delete from UserManager u where u.userId = :userId and managerId in :managerIds");
+		q.setParameter("userId", userId);
+		q.setParameterList("managerIds", managerIds);
+		q.executeUpdate();
+	}
+	private List<Integer> getManagerIdsFromManagerEntityList(List<User> managers){
+		List<Integer> managerIds = new ArrayList<Integer>();
+		for (User manager : managers) {
+			managerIds.add(manager.getUserId());
+		}
+		return managerIds;
+		
+	}
+
+	public UserManager getUserManager(Integer userId, Integer managerId) {
+		session = sessionFactory.openSession();
+		Query q = session.createQuery("from UserManager u where u.userId.userId = :userId and u.managerId.managerId = :managerId");
+		q.setParameter("userId", userId);
+		q.setParameter("managerId", managerId);
+		@SuppressWarnings("unchecked")
+		List<UserManager> result = q.list();
+		System.out.println("result size..."+result.size());
+		if(result.size() >0)
+		return result.get(0);
+		
+		return null;
+	}
+	
+}

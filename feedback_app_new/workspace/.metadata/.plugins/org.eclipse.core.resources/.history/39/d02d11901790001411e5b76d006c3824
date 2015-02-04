@@ -1,0 +1,54 @@
+package controllers;
+
+import org.dtos.EmployeeGroupDTO;
+import org.dtos.ResponseBean;
+import org.service.CommonService;
+import org.service.EmployeeGroupService;
+import org.service.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 
+ * @author nalin sharma
+ *
+ */
+@RequestMapping(value="/hr")
+public class HRController {
+
+	@Autowired
+	EmployeeGroupService employeeGroupService;
+	
+	@Autowired
+	CommonService commonService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(HRController.class);
+	
+	@RequestMapping(value="/createGroup",method=RequestMethod.POST)
+	@ResponseBody ResponseBean<Object> createEmployeeGroup(@RequestBody EmployeeGroupDTO employeeGroupDTO){
+		ResponseBean<Object> bean = new ResponseBean<Object>();
+		
+		try {
+			employeeGroupService.createGroup(employeeGroupDTO);
+			bean.setMessage("successfully created!!.");
+			bean.setStatus(true);
+		} catch (Exception e) {
+			bean.setMessage("unsuccessful");
+			bean.setStatus(false);
+			logger.debug(e.getMessage());
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/getApprovers",method=RequestMethod.GET)
+	@ResponseBody ResponseBean<Object> getApprovers(@RequestBody EmployeeGroupDTO employeeGroupDTO){
+		
+		employeeGroupService.createGroup(employeeGroupDTO);
+		return null;
+	}
+}

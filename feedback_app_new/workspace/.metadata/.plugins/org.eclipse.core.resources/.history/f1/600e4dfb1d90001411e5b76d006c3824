@@ -1,0 +1,20 @@
+package org.dao;
+
+import org.domain.UserManager;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class UserManagerDAOImpl extends AbstractJpaDAO<UserManager> implements UserManagerDAO{
+
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	public UserManagerDAOImpl(){
+		setClazz(UserManager.class);
+	}
+
+	public void removeUserManagerEntries(Integer userId, Integer managerId) {
+		
+	}
+	
+}

@@ -1,0 +1,219 @@
+package controllers;
+/**
+ * @author : nalin sharma
+ *
+ */
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.dtos.FeedbackAppraisalDTO;
+import org.dtos.ResponseBean;
+import org.dtos.UserDTO;
+import org.dtos.UsersBasicDetailsDTO;
+import org.service.CommonService;
+import org.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+@Controller
+@RequestMapping(value="/admin")
+public class AdminController {
+
+	@Autowired
+	UserService service;
+	
+	@Autowired
+	CommonService commonService;
+
+	
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
+
+	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	public @ResponseBody ResponseBean<Object> createUser(/*@ModelAttribute("user") */ @RequestBody UserDTO user,Locale locale, Model model) {
+		logger.info("----inside createUser------.", locale);
+		ResponseBean<Object> bean = new ResponseBean<Object>();
+		System.out.println("hellooooo--------------"+user.getFirstName());
+		try {
+			service.createUser(user);
+			bean.setStatus(true);
+			bean.setMessage("successfully saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//logger.debug(e.printStackTrace());
+			bean.setStatus(false);
+			bean.setMessage("something went wrong");
+			
+		}
+		
+		return bean;
+	}
+	
+	
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	public @ResponseBody ResponseBean<Object> updateUser(/*@ModelAttribute("user") */ @RequestBody UserDTO user,Locale locale, Model model) {
+		logger.info("----inside createUser------.", locale);
+		ResponseBean<Object> bean = new ResponseBean<Object>();
+		System.out.println("hellooooo--------------"+user.getFirstName());
+		try {
+			service.updateUser(user);
+			bean.setStatus(true);
+			bean.setMessage("successfully saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//logger.debug(e.printStackTrace());
+			bean.setStatus(false);
+			bean.setMessage("something went wrong");
+			
+		}
+		
+		return bean;
+	}
+	
+	
+	@RequestMapping(value = "/removeUser/{userId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean<Object> updateUser(/*@ModelAttribute("user") */ @PathVariable int userId,Locale locale) {
+		logger.info("----inside createUser------.", locale);
+		ResponseBean<Object> bean = new ResponseBean<Object>();
+		try {
+			service.removeUser(userId);
+			bean.setStatus(true);
+			bean.setMessage("successfully removed");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//logger.debug(e.printStackTrace());
+			bean.setStatus(false);
+			bean.setMessage("something went wrong");
+			
+		}
+		
+		return bean;
+	}
+	
+	
+	
+	@RequestMapping(value = "/get-users/{roleId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean<List<UsersBasicDetailsDTO>> getAllUsers(Locale locale,@PathVariable int roleId) {
+		logger.info("----inside getAllUsers------.", locale);
+		
+		List<UsersBasicDetailsDTO> basicDetailsDTOs = service.getUsers(roleId);
+		//System.out.println("hellooooo--------------"+userDTO.getFirstName());
+		System.out.println("basicDetailsDTOs size is...."+basicDetailsDTOs.size());
+		ResponseBean<List<UsersBasicDetailsDTO>> bean = new ResponseBean<List<UsersBasicDetailsDTO>>();
+		bean.setData(basicDetailsDTOs);
+		return bean;
+	}
+	
+	
+	@RequestMapping(value = "/getFeedbackFrequencyType/{feedbackFrequencyType}/{userId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean<FeedbackAppraisalDTO> getFeedbackFrequencyType( @PathVariable int feedbackFrequencyType,@PathVariable int userId,Locale locale) {
+		logger.info("----inside createUser------.", locale);
+		Date date = new Date();
+		ResponseBean<FeedbackAppraisalDTO> bean = new ResponseBean<FeedbackAppraisalDTO>();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		try {
+			FeedbackAppraisalDTO feedbackAppraisalDTO = commonService.getFeedBackAppraisal(feedbackFrequencyType, null, userId);
+			bean.setData(feedbackAppraisalDTO);
+			bean.setStatus(true);
+			bean.setMessage("successfully removed");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//logger.debug(e.printStackTrace());
+			bean.setStatus(false);
+			bean.setMessage("something went wrong");
+			
+		}
+		
+		return bean;
+	}
+	
+	
+	
+	@RequestMapping(value = "/getAppraisalFrequencyType/{appraisalFrequencyType}/{userId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean<FeedbackAppraisalDTO> getAppraisalFrequencyType( @PathVariable int appraisalFrequencyType,@PathVariable int userId,Locale locale) {
+		logger.info("----inside createUser------.", locale);
+		Date date = new Date();
+		ResponseBean<FeedbackAppraisalDTO> bean = new ResponseBean<FeedbackAppraisalDTO>();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		try {
+			FeedbackAppraisalDTO feedbackAppraisalDTO = commonService.getFeedBackAppraisal(null, appraisalFrequencyType, userId);
+			bean.setData(feedbackAppraisalDTO);
+			bean.setStatus(true);
+			bean.setMessage("successfully removed");
+		} catch (Exception e) {
+			e.printStackTrace();
+			//logger.debug(e.printStackTrace());
+			bean.setStatus(false);
+			bean.setMessage("something went wrong");
+			
+		}
+		
+		return bean;
+	}
+	
+	
+/*	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean use(Locale locale, Model model) {
+		logger.info("----inside createUser------.", locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		System.out.println("hellooooo--------------");
+		model.addAttribute("serverTime", formattedDate );
+		ResponseBean bean = new ResponseBean<Object>();
+		return bean;
+	}
+	
+	@RequestMapping(value = "/dept", method = RequestMethod.POST)
+	public @ResponseBody ResponseBean dept(Locale locale, Model model,@RequestBody Dept dept) {
+		logger.info("----inside createUser------.", locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		System.out.println("hellooooo--------------"+dept.getName());
+		model.addAttribute("serverTime", formattedDate );
+		ResponseBean bean = new ResponseBean<Object>();
+		return bean;
+	}*/
+	
+	
+
+/*    @RequestMapping("/greeting")
+    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+        return new Greeting(counter.incrementAndGet(),
+                            String.format(template, name));
+    }
+*/
+	
+	@RequestMapping(value = "/get-user/{userId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseBean getSingleUser(Locale locale,@PathVariable int userId) {
+		logger.info("----inside getSingleUser------.", locale);
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		UserDTO userDTO = service.getUser(userId);
+		System.out.println("hellooooo--------------"+userDTO.getFirstName());
+		ResponseBean bean = new ResponseBean<Object>();
+		
+		return bean;
+	}
+}

@@ -1,0 +1,78 @@
+package org.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.dao.UserDAO;
+import org.dao.UserDAOImpl;
+import org.domain.Role;
+import org.domain.User;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.dtos.RoleDTO;
+import org.dtos.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(value="txName")
+public class UserServiceImpl implements UserService{
+
+	@Autowired
+	UserDAO dao;
+		
+	@Autowired
+	Mapper mapper;
+
+	
+	public void createUser(UserDTO userDTO) {
+		System.out.println("UserServiceImpl......"+dao);
+		 mapper = new DozerBeanMapper(); 
+		 System.out.println("userDTO....."+userDTO);
+		User userEntity = 
+			      mapper.map(userDTO, User.class);
+		//attach the nested objects
+		Role dto = new Role();
+		dto.setRoleId(userDTO.getRoleId());
+		userEntity.setRole(dto);
+		
+		List<User> managers = new ArrayList<User>();
+		Integer [] manIds = userDTO.getManagerIds();
+/*		if(manIds != null){
+			for (int i = 0; i < manIds.length; i++) {
+				User tempUser = dao.getUser(manIds[i]);
+				if(tempUser != null)*/
+				managers = dao.getUsers(manIds);
+/*			}	
+		}*/
+		userEntity.setManagers(managers);
+		System.out.println("userEntity..."+userEntity);
+		dao.createUser(userEntity);
+	}
+	
+	
+
+	public User getUser(Integer userId) {
+		UserDTO user = 
+			      mapper.map(userDTO, User.class);
+          return dao.getUser(userId);
+	}
+	
+/*	public static void main(String[] args) {
+		UserServiceImpl impl = new UserServiceImpl();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setFirstName("nalin");
+		userDTO.setLastName("sharma");
+		userDTO.setEmailAddress("a@a.a");
+		RoleDTO dto = new RoleDTO();
+		dto.setRoleId(1);
+		userDTO.setRoleId(1);	
+		//userDTO.setManagerIds();
+		//userDTO.setUserId(1);
+		impl.createUser(userDTO);
+	}*/
+
+	
+}

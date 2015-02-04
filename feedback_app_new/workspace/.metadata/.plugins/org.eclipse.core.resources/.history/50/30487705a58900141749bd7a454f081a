@@ -1,0 +1,553 @@
+package model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * The persistent class for the user database table.
+ * 
+ */
+@Entity
+@Table(name="user")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="user_id")
+	private int userId;
+
+	@Column(name="appraisal_frequency")
+	private String appraisalFrequency;
+
+	@Column(name="appraisal_frequency_type")
+	private int appraisalFrequencyType;
+
+	@Column(name="approver_type")
+	private byte approverType;
+
+	private float ctc;
+
+	@Column(name="email_address")
+	private String emailAddress;
+
+	@Column(name="employee_id")
+	private String employeeId;
+
+	private float experience;
+
+	@Column(name="feedback_frequency")
+	private int feedbackFrequency;
+
+	@Column(name="feedback_frequency_type")
+	private byte feedbackFrequencyType;
+
+	@Column(name="first_name")
+	private String firstName;
+
+	@Column(name="force_password_change")
+	private byte forcePasswordChange;
+
+	@Column(name="last_hike_percentage")
+	private float lastHikePercentage;
+
+	@Column(name="last_name")
+	private String lastName;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="next_appraisal_date")
+	private Date nextAppraisalDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="next_feedback_date")
+	private Date nextFeedbackDate;
+
+	private String password;
+
+	@Column(name="phone_number")
+	private String phoneNumber;
+
+	private String photo;
+
+	private String salt;
+
+	private String skillset;
+
+	//bi-directional many-to-one association to Appraisal
+	@OneToMany(mappedBy="user1")
+	private List<Appraisal> appraisals1;
+
+	//bi-directional many-to-one association to Appraisal
+	@OneToMany(mappedBy="user2")
+	private List<Appraisal> appraisals2;
+
+	//bi-directional many-to-one association to EmployeeGroup
+/*	@OneToMany(mappedBy="user")
+	private List<EmployeeGroup> employeeGroups;*/
+	
+	@ManyToOne(fetch=FetchType.LAZY,targetEntity="")
+	@JoinColumn
+	private List<EmployeeGroup> employeeGroups;
+
+	//bi-directional many-to-one association to Feedback
+	@OneToMany(mappedBy="user1")
+	private List<Feedback> feedbacks1;
+
+	//bi-directional many-to-one association to Feedback
+	@OneToMany(mappedBy="user2")
+	private List<Feedback> feedbacks2;
+
+	//bi-directional many-to-one association to Link
+	@OneToMany(mappedBy="user1")
+	private List<Link> links1;
+
+	//bi-directional many-to-one association to Link
+	@OneToMany(mappedBy="user2")
+	private List<Link> links2;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="approver")
+	private User user;
+
+	//bi-directional many-to-one association to User
+	@OneToMany(mappedBy="user")
+	private List<User> users;
+
+	//bi-directional many-to-one association to EmployeeGroup
+	@ManyToOne
+	@JoinColumn(name="employee_group")
+	private EmployeeGroup employeeGroupBean;
+
+	//bi-directional many-to-one association to Role
+	@ManyToOne
+	@JoinColumn(name="role")
+	private Role roleBean;
+
+	//bi-directional many-to-one association to UserManager
+	@OneToMany(mappedBy="user1")
+	private List<UserManager> userManagers1;
+
+	//bi-directional many-to-one association to UserManager
+	@OneToMany(mappedBy="user2")
+	private List<UserManager> userManagers2;
+
+	public User() {
+	}
+
+	public int getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getAppraisalFrequency() {
+		return this.appraisalFrequency;
+	}
+
+	public void setAppraisalFrequency(String appraisalFrequency) {
+		this.appraisalFrequency = appraisalFrequency;
+	}
+
+	public int getAppraisalFrequencyType() {
+		return this.appraisalFrequencyType;
+	}
+
+	public void setAppraisalFrequencyType(int appraisalFrequencyType) {
+		this.appraisalFrequencyType = appraisalFrequencyType;
+	}
+
+	public byte getApproverType() {
+		return this.approverType;
+	}
+
+	public void setApproverType(byte approverType) {
+		this.approverType = approverType;
+	}
+
+	public float getCtc() {
+		return this.ctc;
+	}
+
+	public void setCtc(float ctc) {
+		this.ctc = ctc;
+	}
+
+	public String getEmailAddress() {
+		return this.emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getEmployeeId() {
+		return this.employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public float getExperience() {
+		return this.experience;
+	}
+
+	public void setExperience(float experience) {
+		this.experience = experience;
+	}
+
+	public int getFeedbackFrequency() {
+		return this.feedbackFrequency;
+	}
+
+	public void setFeedbackFrequency(int feedbackFrequency) {
+		this.feedbackFrequency = feedbackFrequency;
+	}
+
+	public byte getFeedbackFrequencyType() {
+		return this.feedbackFrequencyType;
+	}
+
+	public void setFeedbackFrequencyType(byte feedbackFrequencyType) {
+		this.feedbackFrequencyType = feedbackFrequencyType;
+	}
+
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public byte getForcePasswordChange() {
+		return this.forcePasswordChange;
+	}
+
+	public void setForcePasswordChange(byte forcePasswordChange) {
+		this.forcePasswordChange = forcePasswordChange;
+	}
+
+	public float getLastHikePercentage() {
+		return this.lastHikePercentage;
+	}
+
+	public void setLastHikePercentage(float lastHikePercentage) {
+		this.lastHikePercentage = lastHikePercentage;
+	}
+
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Date getNextAppraisalDate() {
+		return this.nextAppraisalDate;
+	}
+
+	public void setNextAppraisalDate(Date nextAppraisalDate) {
+		this.nextAppraisalDate = nextAppraisalDate;
+	}
+
+	public Date getNextFeedbackDate() {
+		return this.nextFeedbackDate;
+	}
+
+	public void setNextFeedbackDate(Date nextFeedbackDate) {
+		this.nextFeedbackDate = nextFeedbackDate;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return this.phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getPhoto() {
+		return this.photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getSalt() {
+		return this.salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public String getSkillset() {
+		return this.skillset;
+	}
+
+	public void setSkillset(String skillset) {
+		this.skillset = skillset;
+	}
+
+	public List<Appraisal> getAppraisals1() {
+		return this.appraisals1;
+	}
+
+	public void setAppraisals1(List<Appraisal> appraisals1) {
+		this.appraisals1 = appraisals1;
+	}
+
+	public Appraisal addAppraisals1(Appraisal appraisals1) {
+		getAppraisals1().add(appraisals1);
+		appraisals1.setUser1(this);
+
+		return appraisals1;
+	}
+
+	public Appraisal removeAppraisals1(Appraisal appraisals1) {
+		getAppraisals1().remove(appraisals1);
+		appraisals1.setUser1(null);
+
+		return appraisals1;
+	}
+
+	public List<Appraisal> getAppraisals2() {
+		return this.appraisals2;
+	}
+
+	public void setAppraisals2(List<Appraisal> appraisals2) {
+		this.appraisals2 = appraisals2;
+	}
+
+	public Appraisal addAppraisals2(Appraisal appraisals2) {
+		getAppraisals2().add(appraisals2);
+		appraisals2.setUser2(this);
+
+		return appraisals2;
+	}
+
+	public Appraisal removeAppraisals2(Appraisal appraisals2) {
+		getAppraisals2().remove(appraisals2);
+		appraisals2.setUser2(null);
+
+		return appraisals2;
+	}
+
+	public List<EmployeeGroup> getEmployeeGroups() {
+		return this.employeeGroups;
+	}
+
+	public void setEmployeeGroups(List<EmployeeGroup> employeeGroups) {
+		this.employeeGroups = employeeGroups;
+	}
+
+	public EmployeeGroup addEmployeeGroup(EmployeeGroup employeeGroup) {
+		getEmployeeGroups().add(employeeGroup);
+		employeeGroup.setUser(this);
+
+		return employeeGroup;
+	}
+
+	public EmployeeGroup removeEmployeeGroup(EmployeeGroup employeeGroup) {
+		getEmployeeGroups().remove(employeeGroup);
+		employeeGroup.setUser(null);
+
+		return employeeGroup;
+	}
+
+	public List<Feedback> getFeedbacks1() {
+		return this.feedbacks1;
+	}
+
+	public void setFeedbacks1(List<Feedback> feedbacks1) {
+		this.feedbacks1 = feedbacks1;
+	}
+
+	public Feedback addFeedbacks1(Feedback feedbacks1) {
+		getFeedbacks1().add(feedbacks1);
+		feedbacks1.setUser1(this);
+
+		return feedbacks1;
+	}
+
+	public Feedback removeFeedbacks1(Feedback feedbacks1) {
+		getFeedbacks1().remove(feedbacks1);
+		feedbacks1.setUser1(null);
+
+		return feedbacks1;
+	}
+
+	public List<Feedback> getFeedbacks2() {
+		return this.feedbacks2;
+	}
+
+	public void setFeedbacks2(List<Feedback> feedbacks2) {
+		this.feedbacks2 = feedbacks2;
+	}
+
+	public Feedback addFeedbacks2(Feedback feedbacks2) {
+		getFeedbacks2().add(feedbacks2);
+		feedbacks2.setUser2(this);
+
+		return feedbacks2;
+	}
+
+	public Feedback removeFeedbacks2(Feedback feedbacks2) {
+		getFeedbacks2().remove(feedbacks2);
+		feedbacks2.setUser2(null);
+
+		return feedbacks2;
+	}
+
+	public List<Link> getLinks1() {
+		return this.links1;
+	}
+
+	public void setLinks1(List<Link> links1) {
+		this.links1 = links1;
+	}
+
+	public Link addLinks1(Link links1) {
+		getLinks1().add(links1);
+		links1.setUser1(this);
+
+		return links1;
+	}
+
+	public Link removeLinks1(Link links1) {
+		getLinks1().remove(links1);
+		links1.setUser1(null);
+
+		return links1;
+	}
+
+	public List<Link> getLinks2() {
+		return this.links2;
+	}
+
+	public void setLinks2(List<Link> links2) {
+		this.links2 = links2;
+	}
+
+	public Link addLinks2(Link links2) {
+		getLinks2().add(links2);
+		links2.setUser2(this);
+
+		return links2;
+	}
+
+	public Link removeLinks2(Link links2) {
+		getLinks2().remove(links2);
+		links2.setUser2(null);
+
+		return links2;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public User addUser(User user) {
+		getUsers().add(user);
+		user.setUser(this);
+
+		return user;
+	}
+
+	public User removeUser(User user) {
+		getUsers().remove(user);
+		user.setUser(null);
+
+		return user;
+	}
+
+	public EmployeeGroup getEmployeeGroupBean() {
+		return this.employeeGroupBean;
+	}
+
+	public void setEmployeeGroupBean(EmployeeGroup employeeGroupBean) {
+		this.employeeGroupBean = employeeGroupBean;
+	}
+
+	public Role getRoleBean() {
+		return this.roleBean;
+	}
+
+	public void setRoleBean(Role roleBean) {
+		this.roleBean = roleBean;
+	}
+
+	public List<UserManager> getUserManagers1() {
+		return this.userManagers1;
+	}
+
+	public void setUserManagers1(List<UserManager> userManagers1) {
+		this.userManagers1 = userManagers1;
+	}
+
+	public UserManager addUserManagers1(UserManager userManagers1) {
+		getUserManagers1().add(userManagers1);
+		userManagers1.setUser1(this);
+
+		return userManagers1;
+	}
+
+	public UserManager removeUserManagers1(UserManager userManagers1) {
+		getUserManagers1().remove(userManagers1);
+		userManagers1.setUser1(null);
+
+		return userManagers1;
+	}
+
+	public List<UserManager> getUserManagers2() {
+		return this.userManagers2;
+	}
+
+	public void setUserManagers2(List<UserManager> userManagers2) {
+		this.userManagers2 = userManagers2;
+	}
+
+	public UserManager addUserManagers2(UserManager userManagers2) {
+		getUserManagers2().add(userManagers2);
+		userManagers2.setUser2(this);
+
+		return userManagers2;
+	}
+
+	public UserManager removeUserManagers2(UserManager userManagers2) {
+		getUserManagers2().remove(userManagers2);
+		userManagers2.setUser2(null);
+
+		return userManagers2;
+	}
+
+}

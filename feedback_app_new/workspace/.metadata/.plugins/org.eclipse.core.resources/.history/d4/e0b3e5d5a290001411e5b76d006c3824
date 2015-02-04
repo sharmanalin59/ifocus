@@ -1,0 +1,38 @@
+package org.dao;
+
+import java.util.List;
+
+import org.domain.User;
+import org.domain.UserManager;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class UserManagerDAOImpl extends AbstractJpaDAO<UserManager> implements UserManagerDAO{
+
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	private Session session;
+
+	public UserManagerDAOImpl(){
+		setClazz(UserManager.class);
+		session = sessionFactory.openSession();
+	}
+
+	public void removeUserManagerEntries(Integer userId, List<Integer> managerIds) {
+		Query q = session.createQuery("delete from UserManager u where u.userId = :userId and managerId in :managerIds");
+		q.setParameter("userId", userId);
+		q.setParameterList("managerIds", managerIds);
+		q.executeUpdate();
+	}
+	
+	public void removeUserManagerEntries(Integer userId, List<User> managerIds) {
+		Query q = session.createQuery("delete from UserManager u where u.userId = :userId and managerId in :managerIds");
+		q.setParameter("userId", userId);
+		q.setParameterList("managerIds", managerIds);
+		q.executeUpdate();
+	}
+	
+}
